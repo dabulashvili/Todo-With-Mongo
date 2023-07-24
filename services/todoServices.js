@@ -4,12 +4,24 @@ const queryStringParser = require("../utils/queryStringParser");
 class TodoServices {
   constructor() {}
   async getAllData(queryObj) {
-    const { page, sort, ...query } = queryStringParser(
+    const { page, sort, fields, ...reqQueries } = queryStringParser(
       JSON.stringify(queryObj)
     );
 
-    const data = await Todos.find(query).sort(sort);
+    const query = Todos.find(reqQueries);
+
+    if (fields) {
+      const f = fields.split(",").join(" ");
+      query.select(f);
+    } else {
+      query.select("-__v");
+    }
+
+    if (sort) {
+      query.sort(sort);
+    }
     // return dinamicSort(data, sort);
+    const data = await query;
     return data;
   }
 
