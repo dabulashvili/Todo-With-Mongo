@@ -5,6 +5,10 @@ const controllers = new TodoController();
 
 router.route("/").get(controllers.getAllData).post(controllers.addTodo);
 
-router.route("/:id").get(controllers.getSingleTodo).put(controllers.changeTodo);
+router
+  .route("/:id")
+  .get(controllers.getSingleTodo)
+  .patch(controllers.changeTodo)
+  .delete(controllers.deleteTodo);
 
 module.exports = router;

@@ -12,7 +12,6 @@ mongoose
   })
   .then((con) => console.log("s"));
 
-// Todos.find().then((t) => console.log(t));
 app.use(express.json());
 app.use("/api/todos", todoRouter);
 

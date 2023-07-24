@@ -4,9 +4,7 @@ const todoServices = new TodoServices();
 class TodoController {
   constructor() {}
   async getAllData(req, res) {
-    //some operation on req
-    console.log("sss", req.body);
-    const data = await todoServices.getAllData();
+    const data = await todoServices.getAllData(req.query);
     res.status(200).json({ data });
   }
 
@@ -21,8 +19,9 @@ class TodoController {
 
   async changeTodo(req, res) {
     try {
-      const data = await todoServices.changeTodo(req.params.id, res.body);
-      res.status(201).json({ status: updated, data });
+      const data = await todoServices.changeTodo(req.params.id, req.body);
+
+      res.status(201).json({ status: "updated", data });
     } catch (err) {
       res.status(404).json(err);
     }
@@ -34,6 +33,18 @@ class TodoController {
       res.status(201).json({ status: "success", data: newTodo });
     } catch (er) {
       res.status(400).json({ status: "fail", er });
+    }
+  }
+
+  async deleteTodo(req, res) {
+    const deleted = await todoServices.deleteTodo(req.params.id);
+    if (deleted) {
+      res.status(200).json({ status: "deleted", data: null });
+    } else {
+      res.status(400).json({
+        status: "fail",
+        message: "couldnt find todo with provided id",
+      });
     }
   }
 }
