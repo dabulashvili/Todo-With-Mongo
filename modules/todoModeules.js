@@ -4,7 +4,7 @@ const todosSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "A todo must have a name"],
-    unique: [true, "name already exists"],
+    unique: true,
   },
 });
 

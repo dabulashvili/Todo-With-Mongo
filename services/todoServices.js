@@ -10,6 +10,20 @@ class TodoServices {
     }
   }
 
+  async getSingleData(id) {
+    console.log(id);
+    const data = await Todos.findById(id);
+    console.log(data);
+    return data;
+  }
+
+  async updateTodo(_id, body) {
+    const data = await Todos.findOneAndUpdate({ _id }, body, {
+      new: true,
+    });
+    return data;
+  }
+
   async addTodoService(body) {
     const data = await Todos.create(body);
     return data;
