@@ -4,12 +4,13 @@ const queryStringParser = require("../utils/queryStringParser");
 class TodoServices {
   constructor() {}
   async getAllData(queryObj) {
-    const { page, sort, fields, ...reqQueries } = queryStringParser(
+    let { page, sort, fields, limit, ...reqQueries } = queryStringParser(
       JSON.stringify(queryObj)
     );
 
-    const query = Todos.find(reqQueries);
+    let query = Todos.find(reqQueries);
 
+    //filtering , return only some data
     if (fields) {
       const f = fields.split(",").join(" ");
       query.select(f);
@@ -17,10 +18,20 @@ class TodoServices {
       query.select("-__v");
     }
 
+    //pagination
+
+    limit = limit * 1 || 50;
+    page = page * 1 || 1;
+
+    query = query.skip(page * limit - limit).limit(limit);
+
+    //sort
     if (sort) {
+      sort = sort.split(",").join(" ");
       query.sort(sort);
     }
     // return dinamicSort(data, sort);
+
     const data = await query;
     return data;
   }
@@ -49,6 +60,22 @@ class TodoServices {
     Todos.find();
 
     return data;
+  }
+
+  async getStats() {
+    const stats = await Todos.aggregate([
+      {
+        //@match: {} filtering
+        //@unwind : destruct array and make single item from every item
+      },
+      {
+        $group: {
+          _id: { $toUpper: "$name" },
+          totalNum: { $sum: 1 },
+        },
+      },
+    ]);
+    return stats;
   }
 }
 module.exports = TodoServices;

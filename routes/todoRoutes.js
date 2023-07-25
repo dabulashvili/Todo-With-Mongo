@@ -5,6 +5,8 @@ const controllers = new TodoController();
 
 router.route("/").get(controllers.getAllData).post(controllers.addTodo);
 
+router.route("/stats").get(controllers.getStats);
+
 router
   .route("/:id")
   .get(controllers.getSingleTodo)

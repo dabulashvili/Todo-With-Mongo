@@ -4,8 +4,12 @@ const todoServices = new TodoServices();
 class TodoController {
   constructor() {}
   async getAllData(req, res) {
-    const data = await todoServices.getAllData(req.query);
-    res.status(200).json({ data });
+    try {
+      const data = await todoServices.getAllData(req.query);
+      res.status(200).json({ data });
+    } catch (err) {
+      res.status(404).json({ message: err });
+    }
   }
 
   async getSingleTodo(req, res) {
@@ -45,6 +49,16 @@ class TodoController {
         status: "fail",
         message: "couldnt find todo with provided id",
       });
+    }
+  }
+  async getStats(req, res) {
+    console.log(req.body);
+    try {
+      const stats = await todoServices.getStats();
+      res.status(200).json({ stats });
+    } catch (err) {
+      console.log(err);
+      res.status(404).json({ err });
     }
   }
 }
