@@ -1,5 +1,4 @@
-const Todos = require("../modules/todoModeules");
-const dinamicSort = require("../utils/dinamicSort");
+const Todos = require("../modules/todosModules");
 const queryStringParser = require("../utils/queryStringParser");
 class TodoServices {
   constructor() {}

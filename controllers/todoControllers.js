@@ -52,12 +52,10 @@ class TodoController {
     }
   }
   async getStats(req, res) {
-    console.log(req.body);
     try {
       const stats = await todoServices.getStats();
       res.status(200).json({ stats });
     } catch (err) {
-      console.log(err);
       res.status(404).json({ err });
     }
   }

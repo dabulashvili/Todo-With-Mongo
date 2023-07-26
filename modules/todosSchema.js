@@ -8,7 +8,4 @@ const todosSchema = new mongoose.Schema({
     unique: true,
   },
 });
-
-const Todos = mongoose.model("todo", todosSchema);
-
-module.exports = Todos;
+module.exports = todosSchema;
