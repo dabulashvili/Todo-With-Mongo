@@ -10,6 +10,8 @@ router
 
 router.route("/stats").get(controllers.getStats);
 
+router.route("/stats").get(controllers.getStats);
+
 router
   .route("/:id")
   .get(

@@ -4,7 +4,7 @@ const queryStringParser = require("../utils/queryStringParser");
 class TodoServices {
   constructor() {}
   async getAllData(queryObj) {
-    let { page, sort, fields, limit, ...reqQueries } = queryStringParser(
+    const { page, sort, fields, ...reqQueries } = queryStringParser(
       JSON.stringify(queryObj)
     );
 
