@@ -15,10 +15,9 @@ class TodoController {
   }
 
   async authenticateUser(req, res) {
-    console.log(req.body, "bodyyy");
     try {
       const token = await authServices.authenticateUser(req.body);
-      console.log(token);
+
       res.status(200).json({ status: "success", token });
     } catch (err) {
       console.log(err);

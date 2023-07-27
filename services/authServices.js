@@ -1,4 +1,4 @@
-const Users = require("../modules/usersModule");
+const Users = require("../models/usersModel");
 const comparePasswords = require("../utils/comparePass");
 // const hashPassword = require("../utils/hashPass");
 const jwt = require("jsonwebtoken");
@@ -8,13 +8,7 @@ class AuthServices {
   async addUser(body) {
     // const { email } = body;
     // const password = await hashPassword(body.password);
-    console.log(
-      await comparePasswords(
-        "irakli123",
-        "$2b$10$glPCFSYWut3yLREoZ1ZwFe6mSK9knx4vzBKJtLsw.pg5qkWRrVlVO"
-      ),
-      "match"
-    );
+
     const data = await Users.create(body);
     return data;
   }
@@ -26,12 +20,10 @@ class AuthServices {
 
   async authenticateUser(body) {
     const userFromBase = await this.getSingleUser(body.email);
-    console.log(body.password, userFromBase[0].password);
 
     if (await comparePasswords(body.password, userFromBase[0].password)) {
-      console.log("entered");
       const token = jwt.sign({ email: body.email }, process.env.SECRET_KEY, {
-        expiresIn: "1h",
+        expiresIn: "3h",
       });
       return token;
     } else throw new Error("incorect email of pass");

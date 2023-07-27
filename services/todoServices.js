@@ -1,11 +1,14 @@
-const Todos = require("../modules/todosModules");
+const Todos = require("../models/todosModel");
 const queryStringParser = require("../utils/queryStringParser");
+
 class TodoServices {
   constructor() {}
   async getAllData(queryObj) {
     let { page, sort, fields, limit, ...reqQueries } = queryStringParser(
       JSON.stringify(queryObj)
     );
+
+    // reqQueries.status = true;
 
     let query = Todos.find(reqQueries);
 
@@ -50,6 +53,7 @@ class TodoServices {
   }
 
   async addTodoService(body) {
+    console.log(body, "bodyy");
     const data = await Todos.create(body);
     return data;
   }
