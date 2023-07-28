@@ -77,6 +77,7 @@ class TodoController {
     }
   }
   async getStats(req, res) {
+    console.log(req.headers);
     try {
       const stats = await todoServices.getStats();
       res.status(200).json({ stats });

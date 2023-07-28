@@ -4,11 +4,9 @@ const queryStringParser = require("../utils/queryStringParser");
 class TodoServices {
   constructor() {}
   async getAllData(queryObj) {
-    const { page, sort, fields, ...reqQueries } = queryStringParser(
+    let { page, sort, limit, fields, ...reqQueries } = queryStringParser(
       JSON.stringify(queryObj)
     );
-
-    // reqQueries.status = true;
 
     let query = Todos.find(reqQueries);
 
@@ -21,10 +19,8 @@ class TodoServices {
     }
 
     //pagination
-
-    limit = limit * 1 || 50;
-    page = page * 1 || 1;
-
+    limit = limit || 50;
+    page = page || 1;
     query = query.skip(page * limit - limit).limit(limit);
 
     //sort
@@ -67,13 +63,13 @@ class TodoServices {
 
   async getStats() {
     const stats = await Todos.aggregate([
-      {
-        //@match: {} filtering
-        //@unwind : destruct array and make single item from every item
-      },
+      // {
+      //   //@match: {} filtering
+      //   //@unwind : destruct array and make single item from every item
+      // },
       {
         $group: {
-          _id: { $toUpper: "$name" },
+          _id: "$success",
           totalNum: { $sum: 1 },
         },
       },
